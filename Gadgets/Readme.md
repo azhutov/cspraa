@@ -24,7 +24,7 @@ We have demonstrated a simple simulation of the copy gadget under `copy_gadget.i
 
 The image above contains the three most likely outcomes of the copy gadget implemented as it is described in the original paper by Harvard which introduced it (See [here](https://arxiv.org/pdf/2209.03965.pdf), Nguyen et al. 2023)
 
-Under `copy_gadget_defect_free.ipynb` we demonstrate how to compensate for this low fidelity by introducing site-selective detunings. We effectively introduce a detuning-gradient along the direction of the copy gadget to make it such that the excited states prefer to be as close as possible to the target qubit (on the left). The exception is the detuning of the second atom, which is higher than the detuning of all atoms. This is so that the possibility of the first atom being in the ground state or excited state is $50%$, so that the copy gadget is symmetric.
+Under `copy_gadget_defect_free.ipynb` we demonstrate how to compensate for this low fidelity by introducing site-selective detunings. We effectively introduce a detuning-gradient along the direction of the copy gadget to make it such that the excited states prefer to be as close as possible to the target qubit (on the left). The exception is the detuning of the second atom, which is higher than the detuning of all atoms. This is so that the possibility of the first atom being in the ground state or excited state is $50\%$, so that the copy gadget is symmetric.
 
 ![](images/copy_fixed_histogram.png)
 ![](images/copy_fixed_atoms.png)
