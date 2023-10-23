@@ -1,4 +1,4 @@
-# reGenerativeQuantumChallenge
+# Crystal Structure Prediction with Rydberg Atom Arrays
 
 ## Setting up the Python Environment
 
