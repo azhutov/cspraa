@@ -1,9 +1,11 @@
 from setuptools import setup
+from setuptools import find_packages
 
 setup(
-    name='regenerativequantumchallenge',
+    name='cspraa',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
+    packages=find_packages(),
     install_requires=[
         'arrow==1.3.0',
         'asttokens==2.4.0',
@@ -59,10 +61,9 @@ setup(
         'Pygments==2.16.1',
         'PyJWT==2.8.0',
         'pyparsing==3.1.1',
-        'pyproject_hooks==1.0.0',
-        'python-dateutil==2.8.2',
-        'pywin32==306',
-        'pyzmq==25.1.1',
+        'Pyproject_Hooks==1.0.0',
+        'Python-Dateutil==2.8.2',
+        'Pyzmq==25.1.1',
         'qutip==4.7.3',
         'referencing==0.30.2',
         'requests==2.31.0',
