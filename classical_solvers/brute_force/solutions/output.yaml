@@ -1,9 +1,5 @@
-crystal: hexagon_three
-energy: -2.4
+crystal: edge
+energy: -1
 atoms:
- - 2
- - 2
- - 0
  - 1
- - 0
  - 0

@@ -6,12 +6,13 @@
 using namespace std;
 
 int main() {
-    Crystal crystal("../../native_crystal_database/hexagon_three.dat");
+    Crystal crystal("../../native_crystal_database/edge.dat");
     crystal.load();
-    
+
     BruteForceSolver solver(crystal);
     Solution s = solver.solve();
 
+    cout << "energy: " << s.getEnergy() << endl;
     s.save("./solutions/output.yaml");
 
     return 0;

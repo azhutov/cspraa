@@ -36,8 +36,9 @@ Solution BruteForceSolver::solve() {
 }
 
 bool BruteForceSolver::nextStatus() {
-    int index = 0, k = -1;
+    int index = -1, k = -1;
     do {
+        index++;
         for (int i = 0; i < this->species; i++) { 
             if (this->status[index*this->species + i]) {
                 k = i;
@@ -45,9 +46,9 @@ bool BruteForceSolver::nextStatus() {
             }
         }
         status[index*this->species + k] = 0;
-        status[index*this->species + (k+1) % this->species] = 1;
-        index++;
-    } while (this->status[(index-1)*this->species] && index < this->n);
+        status[index*this->species + (k+1) % species] = 1;
+        std::cout << index << std::endl;
+    } while (this->status[index*species] && index < n - 1);
 
     return index < this->n;
 }

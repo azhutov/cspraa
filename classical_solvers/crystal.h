@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <linked_list.h>
 
 class Crystal {
 public:
@@ -18,4 +20,5 @@ private:
     std::vector<std::vector<double>> qmat;
     int n, species, dimension;
     std::string address;
+    std::unordered_map<int, LinkedList<int>> vertices_map;
 };
