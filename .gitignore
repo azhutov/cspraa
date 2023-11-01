@@ -162,4 +162,4 @@ cython_debug/
 .vs
 .vscode
 
-classical_solvers/brute_force/run.bat
+classical_solvers/*/run.bat

@@ -85,18 +85,16 @@ double Crystal::getLocalEnergy(int index, int *status) {
     if (vertices_map.find(index) == vertices_map.end()) {
         return output;
     }
-    for (int i = 0; i < vertices_map[index].getSize(); i++) {
-        Node<int> *n = vertices_map[index].getStartNode();
-        while (n != nullptr) {
-            int j = n->value;
-            for (int r1 = 0; r1 < species; r1++) {
-                for (int r2 = 0; r2 < species; r2++) {
-                    output += qmat[index*species+r1][j*species+r2]*status[index*species+r1]*status[j*species+r2];
-                    output += qmat[j*species+r2][index*species+r1]*status[index*species+r1]*status[j*species+r2];
-                }
+    Node<int> *node = vertices_map[index].getStartNode();
+    while (node != nullptr) {
+        int j = node->value;
+        for (int r1 = 0; r1 < species; r1++) {
+            for (int r2 = 0; r2 < species; r2++) {
+                output += qmat[index*species+r1][j*species+r2]*status[index*species+r1]*status[j*species+r2];
+                output += qmat[j*species+r2][index*species+r1]*status[index*species+r1]*status[j*species+r2];
             }
-            n = n->next;
         }
+        node = node->next;
     }
 
     return output;
