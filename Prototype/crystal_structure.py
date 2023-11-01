@@ -8,7 +8,7 @@ class CrystalStructure:
         self.dimension = dimension
         self.positions: List[Tuple[float, ...]] = []
         self.potentials: List[List[float]] = [[0.0 for _ in range(species_count)] for _ in range(vertices_count)]
-        self.interactions: List[Tuple[int, int, List[float]]] = []
+        self.interactions = {}
 
     def add_position(self, *coords: float) -> None:
         if len(coords) != self.dimension:
@@ -20,9 +20,10 @@ class CrystalStructure:
         if 0 <= position_idx < self.vertices_count:
             self.potentials[position_idx] = potentials
 
-    def add_interaction(self, position_idx1: int, position_idx2: int, interactions: List[float]) -> None:
+    def add_interaction(self, position_idx1: int, position_idx2: int, interactions) -> None:
         if (0 <= position_idx1 < self.vertices_count and 0 <= position_idx2 < self.vertices_count):
-            self.interactions.append((position_idx1, position_idx2, interactions))
+            position_idx1, position_idx2 = sorted([position_idx1, position_idx2])
+            self.interactions[position_idx1, position_idx2] = interactions
 
     @staticmethod
     def from_string(encoded_str: str) -> 'CrystalStructure':
@@ -58,7 +59,8 @@ class CrystalStructure:
             encoded.append(" ".join(map(str, potentials)))
 
         encoded.append(str(len(self.interactions)))
-        for position_idx1, position_idx2, interactions in self.interactions:
+        for k, interactions in self.interactions.items():
+            position_idx1, position_idx2 = k
             interaction_str = " ".join(map(str, interactions))
             encoded.append(f"{position_idx1} {position_idx2} {interaction_str}")
 
