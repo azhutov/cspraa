@@ -47,8 +47,7 @@ bool BruteForceSolver::nextStatus() {
         }
         status[index*this->species + k] = 0;
         status[index*this->species + (k+1) % species] = 1;
-        std::cout << index << std::endl;
     } while (this->status[index*species] && index < n - 1);
 
-    return index < this->n;
+    return index < n - 1 || !this->status[index*species];
 }

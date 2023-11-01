@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <filesystem>
 
+using namespace std;
+
 Crystal::Crystal(std::string address) {
     this->address = address; 
 }
@@ -45,13 +47,25 @@ void Crystal::load() {
         }
         vertices_map[v1].put(v2);
 
+        if (vertices_map.find(v2) == vertices_map.end()) {
+            vertices_map[v2] = LinkedList<int>();
+        }
+        vertices_map[v2].put(v1);
+
         for (int j = 0; j < species; j++) {
             for (int k = 0; k < species; k++) {
                 inputFile >> w;
-                qmat[v1*species+j][v2*species+k] = w / 2;
-                qmat[v2*species+k][v1*species+j] = w / 2;
+                qmat[v1*species+j][v2*species+k] += w / 2;
+                qmat[v2*species+k][v1*species+j] += w / 2;
             }
         }
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (vertices_map.find(i) == vertices_map.end()) {
+            continue;
+        }
+        sortVertexLinkedList(vertices_map[i]);
     }
 
     inputFile.close();
@@ -62,11 +76,33 @@ void Crystal::load() {
     this->dimension = dimension;
 }
 
-double Crystal::getEnergy(int *status) {
-    for (int i = 0; i < n*species; i++) {
-        std::cout << status[i] << " ";
+double Crystal::getLocalEnergy(int index, int *status) {
+    double output = 0;
+
+    for (int i = 0; i < species; i++) {
+        output += qmat[index*species+i][index*species+i] * status[index*species+i];
     }
-    std::cout << std::endl;
+    if (vertices_map.find(index) == vertices_map.end()) {
+        return output;
+    }
+    for (int i = 0; i < vertices_map[index].getSize(); i++) {
+        Node<int> *n = vertices_map[index].getStartNode();
+        while (n != nullptr) {
+            int j = n->value;
+            for (int r1 = 0; r1 < species; r1++) {
+                for (int r2 = 0; r2 < species; r2++) {
+                    output += qmat[index*species+r1][j*species+r2]*status[index*species+r1]*status[j*species+r2];
+                    output += qmat[j*species+r2][index*species+r1]*status[index*species+r1]*status[j*species+r2];
+                }
+            }
+            n = n->next;
+        }
+    }
+
+    return output;
+}
+
+double Crystal::getEnergy(int *status) {
     double output = 0;
 
     // Linear terms
@@ -88,6 +124,10 @@ double Crystal::getEnergy(int *status) {
         Node<int>* n = vertices_map[i].getStartNode();
         while (n != nullptr) {
             j = n->value;
+            if (j > i) {
+                break;
+            }
+            n = n->next;
 
             for (int r1 = 0; r1 < species; r1++) {
                 for (int r2 = 0; r2 < species; r2++) {
@@ -95,12 +135,37 @@ double Crystal::getEnergy(int *status) {
                     output += qmat[j*species+r2][i*species+r1]*status[i*species+r1]*status[j*species+r2];
                 }
             }
-
-            n = n->next;
         }
     }
 
     return output;
+}
+
+void Crystal::sortVertexLinkedList(LinkedList<int> &ll) {
+    bool flag;
+    do {
+        flag = false;
+        Node<int>* n = ll.getStartNode(), * next, * previous;
+        for (int i = 0; i < ll.getSize()-1; i++) {
+            if (n->value <= n->next->value) {
+                continue;
+            }
+            flag = true;
+            next = n->next;
+            previous = n->previous;
+
+            n->next = n->next->next;
+            n->previous = n;
+
+            next->next = n;
+            next->previous = previous;
+            
+            n = next;
+            if (i == 0) {
+                ll.setStartNode(next);
+            }
+        }
+    } while (flag);
 }
 
 std::vector<std::vector<double>> Crystal::getQUBOMatrix() {

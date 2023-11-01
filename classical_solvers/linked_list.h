@@ -62,6 +62,10 @@ public:
         return start;
     }
 
+    void setStartNode(Node<T> *start) {
+        this->start = start;
+    }
+
     int getSize() {
         return size;
     }
