@@ -1,5 +1,6 @@
 from Prototype.crystal_structure import CrystalStructure
 from typing import List, Dict, Tuple
+import numpy as np
 
 class AtomSpec:
 
@@ -11,7 +12,7 @@ class AtomSpec:
             detuning (float): A float determining the relative detuning of the atom, in units of delta_max.
             target (int): An integer determining the target of the qubit. If the qubit is ancillary, this value is -1.
         """
-        self.position = position
+        self.position = np.array(position)
         self.detuning = detuning
         self.target = target
 

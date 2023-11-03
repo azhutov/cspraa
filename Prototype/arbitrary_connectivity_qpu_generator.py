@@ -27,7 +27,7 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
             - "rydberg_radius": The desired rydberg radius for the algorithm.
         """
         atom_specs = []
-        rydberg_radius = self.atomic_min_distance * np.sqrt(5) / 4
+        rydberg_radius = self.atomic_min_distance * np.sqrt(1/2)
 
         for i in range(self.n):
             self._add_target_line(atom_specs, i)
@@ -64,7 +64,7 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
             if key not in self.interactions.keys():
                 pot = 0
             else:
-                pot = self.interactions[
+                pot = self.weights_detuning_fraction * self.interactions[
                     key
                 ][
                     (i % self.crystal.species_count) * self.crystal.species_count + j % self.crystal.species_count
@@ -132,7 +132,7 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
 
         if self.n % 2: # To make 0/1 balanced when n is odd
             atom_specs += [AtomSpec(
-                position = end+np.array([1,0]),
+                position = end+(np.array([1,0]) if index < self.n-1 else np.array([0,-1])),
                 detuning = 1,
                 target = -1
                 )]
