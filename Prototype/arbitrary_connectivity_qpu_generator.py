@@ -9,12 +9,14 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
                  copy_gadget_detuning_correction: float,
                  next_nearest_neighbour_detuning_correction: float,
                  two_species_penalty: float,
+                 no_species_penalty: float,
                  crystal: CrystalStructure,
                  atomic_min_distance: float = 1):
         self.weights_detuning_fraction = weights_detuning_fraction
         self.copy_gadget_detuning_correction = copy_gadget_detuning_correction
         self.next_nearest_neighbour_detuning_correction = next_nearest_neighbour_detuning_correction
         self.two_species_penalty = two_species_penalty
+        self.no_species_penalty = no_species_penalty
         super().__init__(crystal, atomic_min_distance)
 
         self.n = self.crystal.species_count * self.crystal.vertices_count
@@ -55,7 +57,7 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
         center = self._get_crossing_gadget_center(i, j)
 
         if i // self.crystal.species_count == j // self.crystal.species_count:
-            pot = self.two_species_penalty
+            pot = -self.two_species_penalty - 2*self.no_species_penalty
         else:
             key = i // self.crystal.species_count, j // self.crystal.species_count
 
@@ -73,12 +75,12 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
                     d1-1/2,
                     d2-1/2,
                 ])
-                is_control = (j%2 == d1) and (i%2 != d2)
+                is_control = (j%2 == d1) and (i%2 == d2)
 
                 atom_specs += [
                     AtomSpec(
                         position = position,
-                        detuning = 4 - pot * is_control,
+                        detuning = 4 + pot * is_control,
                         target = -1
                     )
                 ]
@@ -103,7 +105,7 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
                 is_start = (current == start).all()
                 atom_specs += [AtomSpec(
                     position = np.array(current),
-                    detuning = 1 - self.weights_detuning_fraction*self.potentials[vertex_index][species_index]*is_start,
+                    detuning = 1 - self.weights_detuning_fraction*self.potentials[vertex_index][species_index]*is_start - self.no_species_penalty*is_start,
                     target = index if is_start else -1
                 )]
                 if (current == end).all():
