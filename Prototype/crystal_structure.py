@@ -1,4 +1,5 @@
 from typing import List, Tuple
+import numpy as np
 
 
 class CrystalStructure:
@@ -9,12 +10,14 @@ class CrystalStructure:
         self.positions: List[Tuple[float, ...]] = []
         self.potentials: List[List[float]] = [[0.0 for _ in range(species_count)] for _ in range(vertices_count)]
         self.interactions = {}
+        self.degrees = {}
+        self.neighbours = {}
 
     def add_position(self, *coords: float) -> None:
         if len(coords) != self.dimension:
             raise ValueError(f"Expected {self.dimension} coordinates, got {len(coords)}")
         if len(self.positions) < self.vertices_count:
-            self.positions.append(coords)
+            self.positions.append(np.array(coords))
 
     def set_potential(self, position_idx: int, potentials: List[float]) -> None:
         if 0 <= position_idx < self.vertices_count:
@@ -24,6 +27,12 @@ class CrystalStructure:
         if (0 <= position_idx1 < self.vertices_count and 0 <= position_idx2 < self.vertices_count):
             position_idx1, position_idx2 = sorted([position_idx1, position_idx2])
             self.interactions[position_idx1, position_idx2] = interactions
+            
+            self.degrees[position_idx1] = self.degrees.get(position_idx1, 0) + 1
+            self.degrees[position_idx2] = self.degrees.get(position_idx2, 0) + 1
+
+            self.neighbours[position_idx1] = self.neighbours.get(position_idx1,[]) + [position_idx2]
+            self.neighbours[position_idx2] = self.neighbours.get(position_idx2,[]) + [position_idx1]
 
     @staticmethod
     def from_string(encoded_str: str) -> 'CrystalStructure':
