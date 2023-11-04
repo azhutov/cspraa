@@ -1,4 +1,4 @@
-from Prototype.crystal_structure import CrystalStructure
+from Prototype.crystals.crystal_structure import CrystalStructure
 from typing import List, Dict, Tuple
 import numpy as np
 

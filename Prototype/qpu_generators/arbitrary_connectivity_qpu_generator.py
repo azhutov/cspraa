@@ -1,5 +1,5 @@
-from Prototype.GenericQPUGenerator import GenericQPUGenerator, AtomSpec
-from Prototype.crystal_structure import CrystalStructure
+from Prototype.qpu_generators.GenericQPUGenerator import GenericQPUGenerator, AtomSpec
+from Prototype.crystals.crystal_structure import CrystalStructure
 import numpy as np
 
 class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
