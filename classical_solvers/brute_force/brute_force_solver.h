@@ -11,7 +11,7 @@ private:
     Crystal cr;
     int n;
     int species;
-    std::vector<std::vector<double>> qmat;
+    std::vector<std::vector<double> > qmat;
     int *status;
 
     bool nextStatus();

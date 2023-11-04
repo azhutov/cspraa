@@ -18,7 +18,7 @@ void Crystal::load() {
 
     int n, species;
     inputFile >> n >> species;
-    static std::vector<std::vector<double>> qmat(n*species, std::vector<double>(n*species));
+    static std::vector<std::vector<double> > qmat(n*species, std::vector<double>(n*species));
 
     int dimension; // This value is ignored, as it has no role in the QUBO problem.
     inputFile >> dimension;
@@ -166,7 +166,7 @@ void Crystal::sortVertexLinkedList(LinkedList<int> &ll) {
     } while (flag);
 }
 
-std::vector<std::vector<double>> Crystal::getQUBOMatrix() {
+std::vector<std::vector<double> > Crystal::getQUBOMatrix() {
     return this->qmat;
 }
 

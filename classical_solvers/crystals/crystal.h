@@ -10,7 +10,7 @@ public:
 
     void load();
 
-    std::vector<std::vector<double>> getQUBOMatrix();
+    std::vector<std::vector<double> > getQUBOMatrix();
     int getN();
     int getSpecies();
     int getDimension();
@@ -19,8 +19,8 @@ public:
     std::string getCrystalName();
 private:
     void sortVertexLinkedList(LinkedList<int> &ll);
-    std::vector<std::vector<double>> qmat;
+    std::vector<std::vector<double> > qmat;
     int n, species, dimension;
     std::string address;
-    std::unordered_map<int, LinkedList<int>> vertices_map;
+    std::unordered_map<int, LinkedList<int> > vertices_map;
 };
