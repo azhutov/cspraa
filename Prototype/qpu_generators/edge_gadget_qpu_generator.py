@@ -1,4 +1,5 @@
-from Prototype.qpu_generators.GenericQPUGenerator import GenericQPUGenerator, AtomSpec
+from Prototype.qpu_generators.generic_qpu_generator import GenericQPUGenerator
+from Prototype.qpu_generators.atom_spec import AtomSpec
 from Prototype.crystals.crystal_structure import CrystalStructure
 import numpy as np
 
@@ -9,9 +10,10 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
                  next_nearest_neighbour_detuning_correction: float,
                  crystal: CrystalStructure,
                  atomic_min_distance: float = 1):
-        self.weights_detuning_fraction = weights_detuning_fraction
         self.next_nearest_neighbour_detuning_correction = next_nearest_neighbour_detuning_correction
         super().__init__(crystal, atomic_min_distance)
+
+        self.weights_detuning_fraction = weights_detuning_fraction /  max(np.abs(np.array(list(crystal.interactions.values()))).max(), np.abs(np.array(crystal.potentials)).max())
 
         assert self.crystal.species_count == 2, "This generator is only implementable for binary crystals (two atomic species)."
         assert self.crystal.dimension == 2, "This method only works for 2 dimensional crystals"
@@ -22,7 +24,7 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
             - "rydberg_radius": The desired rydberg radius for the algorithm.
         """
         atom_specs = []
-        rydberg_radius = self.atomic_min_distance * np.sqrt(2) / 4
+        rydberg_radius = self.atomic_min_distance * np.sqrt(2)
 
         self._add_positional_qubits(atom_specs)
 

@@ -1,0 +1,5 @@
+name: Chadoq3
+reusable_channels: True
+min_atom_distance: 1
+max_atom_num: 1000
+max_radial_distance: 1000
