@@ -1,0 +1,9 @@
+machine: chadoq3
+qpu_generator:
+  type: EdgeGadgetQPUGenerator
+  args:
+    weights_detuning_fraction: 0.1
+    next_nearest_neighbour_detuning_correction: 0
+    atomic_min_distance: 1
+rydberg_correction_factor: 1.05
+time: 20000 # ns
