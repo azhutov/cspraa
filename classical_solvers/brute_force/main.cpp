@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-    Crystal crystal("../../native_crystal_database/hexagon_three.dat");
+    Crystal crystal("../../native_crystal_database/graphene_supercell.dat");
     crystal.load();
 
     BruteForceSolver solver(crystal);

@@ -1,9 +1,19 @@
-crystal: hexagon_three
-energy: -3
+crystal: graphene_supercell
+energy: -1.3
 atoms:
- - 2
- - 2
- - 2
- - 2
- - 2
- - 2
+ - 1
+ - 0
+ - 1
+ - 1
+ - 1
+ - 0
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 0
+ - 1
