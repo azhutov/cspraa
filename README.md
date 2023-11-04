@@ -5,14 +5,14 @@
 1. Create a python environment on your device using .venv or conda.
 
 ```bash
-mkdir <PATH>/reGenerativeQuantumChallenge/.venv
-python -m venv <PATH>/reGenerativeQuantumChallenge/.venv
+mkdir <PATH>/cspraa/.venv
+python -m venv <PATH>/cspraa/.venv
 ```
 
 2. Enter the environment.
 
 ```bash
-<PATH>/reGenerativeQuantumChallenge/.venv/Scripts/activate
+<PATH>/cspraa/.venv/Scripts/activate
 ```
 
 3. Install the requirements for the environment.
@@ -29,7 +29,7 @@ If you intend to add dependencies to the repository by installing packages throu
 Use https://pypi.org/project/setuppy-generator/
 
 ```bash
-cd <PATH>/reGenerativeQuantumChallenge/
+cd <PATH>/cspraa/
 pip install -e .
 pip freeze > requirements.txt
 python -m setuppy_generator > setup.py
