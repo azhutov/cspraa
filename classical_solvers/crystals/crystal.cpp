@@ -100,7 +100,7 @@ double Crystal::getLocalEnergy(int index, int *status) {
     return output;
 }
 
-double Crystal::getEnergy(int *status) {
+double Crystal::getEnergy(int *status){
     double output = 0;
 
     // Linear terms
@@ -170,7 +170,7 @@ std::vector<std::vector<double> > Crystal::getQUBOMatrix() {
     return this->qmat;
 }
 
-int Crystal::getN() const {
+int Crystal::getN() {
     return this->n;
 }
 
@@ -182,7 +182,7 @@ int Crystal::getDimension() {
     return this->dimension;
 }
 
-std::string Crystal::getCrystalName() const {
+std::string Crystal::getCrystalName() {
     std::filesystem::path file_path = this->address;
     return file_path.filename().stem().string();
 }

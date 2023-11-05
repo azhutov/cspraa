@@ -1,0 +1,2 @@
+solver,problem_size,runtime,input_file
+"brute_force",16,24,"../native_crystal_database/benchmark_crystals/brute_force//graphene_supercell_nx_2_ny_2.dat"

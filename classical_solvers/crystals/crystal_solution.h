@@ -5,13 +5,13 @@ class Solution {
 public:
     Solution(Crystal &cr, double energy, int *solution);
 
-    int getN() const;
+    int getN();
     int getSpecies();
     double getEnergy();
     int* getSolution();
     Crystal getCrystal();
 
-    void save(std::string name) const;
+    void save(std::string name, bool save_ground_state = false);
 private:
     Crystal crystal;
     int n;
