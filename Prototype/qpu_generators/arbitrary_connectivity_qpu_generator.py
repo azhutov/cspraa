@@ -1,5 +1,6 @@
-from Prototype.GenericQPUGenerator import GenericQPUGenerator, AtomSpec
-from Prototype.crystal_structure import CrystalStructure
+from Prototype.qpu_generators.generic_qpu_generator import GenericQPUGenerator
+from Prototype.qpu_generators.atom_spec import AtomSpec
+from Prototype.crystals.crystal_structure import CrystalStructure
 import numpy as np
 
 class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
@@ -12,13 +13,13 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
                  no_species_penalty: float,
                  crystal: CrystalStructure,
                  atomic_min_distance: float = 1):
-        self.weights_detuning_fraction = weights_detuning_fraction
         self.copy_gadget_detuning_correction = copy_gadget_detuning_correction
         self.next_nearest_neighbour_detuning_correction = next_nearest_neighbour_detuning_correction
         self.two_species_penalty = two_species_penalty
         self.no_species_penalty = no_species_penalty
         super().__init__(crystal, atomic_min_distance)
 
+        self.weights_detuning_fraction = weights_detuning_fraction / max(1, max(np.abs(np.array(list(crystal.interactions.values()))).max(), np.abs(np.array(crystal.potentials)).max()))
         self.n = self.crystal.species_count * self.crystal.vertices_count
 
     def convert(self):
@@ -27,7 +28,7 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
             - "rydberg_radius": The desired rydberg radius for the algorithm.
         """
         atom_specs = []
-        rydberg_radius = self.atomic_min_distance * np.sqrt(1/2)
+        rydberg_radius = self.atomic_min_distance * np.sqrt(2)
 
         for i in range(self.n):
             self._add_target_line(atom_specs, i)
