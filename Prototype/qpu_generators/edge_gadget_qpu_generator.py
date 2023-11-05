@@ -12,10 +12,12 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
                  side_square_detuning_correction: float,
                  crystal: CrystalStructure,
                  length_ratio: float = 1,
+                 degree_detuning_correction_factor: float = 1,
                  atomic_min_distance: float = 1):
         self.next_nearest_neighbour_detuning_correction = next_nearest_neighbour_detuning_correction
         self.vacancy_detuning_correction = vacancy_detuning_correction
         self.side_square_detuning_correction = side_square_detuning_correction
+        self.degree_detuning_correction_factor = degree_detuning_correction_factor
         super().__init__(crystal, atomic_min_distance)
 
         self.weights_detuning_fraction = weights_detuning_fraction / max(1, max(np.abs(np.array(list(crystal.interactions.values()))).max(), np.abs(np.array(crystal.potentials)).max()))
@@ -47,8 +49,11 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
         }
     
     def _normalize_atom_distance_and_detuning(self, atom_specs):
-        distance_min = min([np.linalg.norm(self.crystal.positions[i]-self.crystal.positions[j]) 
-                            for i, j in self.crystal.interactions.keys()]) / (4 + 2*np.cos(self.angle)) / self.length_ratio
+        crystal_min = min([np.linalg.norm(self.crystal.positions[i]-self.crystal.positions[j]) 
+                            for i, j in self.crystal.interactions.keys()])
+        distance_min = crystal_min / (4 + 2*np.cos(self.angle/180*np.pi))
+        distance_min = min(distance_min, distance_min / self.length_ratio)
+
         detuning_max = max(atom_specs, key=lambda a : a.getDetuning()).getDetuning()
         for i in range(len(atom_specs)):
             atom_specs[i].setPosition(
@@ -67,12 +72,17 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
 
             atom_specs += [AtomSpec(
                 self.crystal.positions[i],
-                detuning = self.crystal.degrees[i] - linear_pot * self.weights_detuning_fraction,
+                detuning = 1 + self.degree_detuning_correction_factor*(self.crystal.degrees[i]-1) - linear_pot * self.weights_detuning_fraction,
                 target=2*i+1
             )]
 
     def _add_edge_gadget(self, atom_specs, index1, index2, vacancy_flag):
         interactions = np.array(self.interactions[min(index1, index2), max(index1, index2)]) * self.weights_detuning_fraction
+        
+        indices = [index1, index2]
+        np.random.shuffle(indices)
+        index1, index2 = indices
+
         pos = np.array(self.crystal.positions[index1])
         alpha = self.angle
         dir = (self.crystal.positions[index2]-self.crystal.positions[index1]) / (self.length_ratio * (4 + 2 * np.cos(alpha/180*np.pi)))
