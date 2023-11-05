@@ -3,7 +3,7 @@ qpu_generator:
   type: EdgeGadgetQPUGenerator
   args:
     weights_detuning_fraction: 0.1
-    next_nearest_neighbour_detuning_correction: 0.2
+    next_nearest_neighbour_detuning_correction: 0.6
     atomic_min_distance: 5
     length_ratio: 1.5
 rydberg_correction_factor: 1.30
