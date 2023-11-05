@@ -19,7 +19,7 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
         self.no_species_penalty = no_species_penalty
         super().__init__(crystal, atomic_min_distance)
 
-        self.weights_detuning_fraction = weights_detuning_fraction / max(np.abs(np.array(list(crystal.interactions.values()))).max(), np.abs(np.array(crystal.potentials)).max())
+        self.weights_detuning_fraction = weights_detuning_fraction / max(1, max(np.abs(np.array(list(crystal.interactions.values()))).max(), np.abs(np.array(crystal.potentials)).max()))
         self.n = self.crystal.species_count * self.crystal.vertices_count
 
     def convert(self):

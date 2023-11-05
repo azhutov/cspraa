@@ -1,14 +1,14 @@
 from Prototype.qpu_generators import *
 from Prototype.crystals.crystal_structure import CrystalStructure
-import matplotlib.pyplot as plt
 import numpy as np
 from Prototype.simulation.machine_generator import MachineGenerator
 from pulser import Pulse, Register, Sequence
 from pulser.register.register_layout import RegisterLayout
-from enum import Enum
+from pulser.devices import Chadoq2
 from typing import Union
 import yaml
 import os
+from pulser.waveforms import *
 
 class SequenceBuilder:
 
@@ -63,21 +63,51 @@ class SequenceBuilder:
             i: detunings_normalized[i] for i in range(len(coords))
         })
     
-    def _add_adiabatic_pulse(self, seq: Sequence, qpu_properties: dict):
-        pass
+    def _add_adiabatic_pulse_with_local_channels(self, 
+                                                 seq: Sequence, 
+                                                 qpu_properties: dict):
+        time = self.configs["time"]
+        omega_max = self.omega_max
+        detuning_min = self.configs["adiabatic_waveform"]["detunings"]["detuning_min"]
+        detuning_base = self.configs["adiabatic_waveform"]["detunings"]["detuning_base"]
+        detuning_max = self.configs["adiabatic_waveform"]["detunings"]["detuning_max"]
+        atom_detunings = [atom.getDetuning() for atom in qpu_properties["atom_specs"]]
 
-    def _add_detunings(self, seq: Sequence, detunings_map: dict):
-        pass
-    
+        amp_waveform = InterpolatedWaveform(
+            duration = time,
+            values = [0, omega_max, 0]
+        )
+        for i in range(len(atom_detunings)):
+            di = detuning_base + atom_detunings[i] * (detuning_max-detuning_base)
+            detuning_waveform = InterpolatedWaveform(
+                time,
+                [detuning_min, 0, di]
+            )
+            pulse = Pulse(
+                amp_waveform,
+                detuning_waveform,
+                phase = 0
+            )
+            seq.declare_channel(f"my_dmm_{i}","rydberg_local", initial_target=f"q{i}")
+            seq.add(pulse, f"my_dmm_{i}", protocol="no-delay")
+
+    def _calculate_omega_max(self, qpu_properties: dict, machine: Chadoq2):
+        radius = qpu_properties["rydberg_radius"] * self.configs["rydberg_correction_factor"]
+        return machine.interaction_coeff / radius**6
+
     def create_sequence(self):
-        machine = MachineGenerator.getMachine(self.configs["machine"])
         qpu_properties = self._generate_qpu_properties()
+        
+        machine = MachineGenerator.getMachine(self.configs["machine"])
+        self.omega_max = self._calculate_omega_max(qpu_properties, machine)
+
         register = self._create_register(qpu_properties)
-        detunings_map = self._create_detunings_map(qpu_properties)
+        # detunings_map = self._create_detunings_map(qpu_properties)
 
         seq = Sequence(register, machine)
-        self._add_adiabatic_pulse(seq, qpu_properties)
-        self._add_detunings(seq, detunings_map)
+        self._add_adiabatic_pulse_with_local_channels(
+            seq, qpu_properties
+        )
 
         return seq
 

@@ -6,7 +6,7 @@ import os
 class MachineGenerator:
 
     @staticmethod
-    def getMachine(name: str):
+    def getMachine(name: str) -> Chadoq2:
         return replace(Chadoq2.to_virtual(), \
             **yaml.safe_load(open(
                 os.path.join(
