@@ -75,7 +75,7 @@ class SequenceBuilder:
 
         amp_waveform = InterpolatedWaveform(
             duration = time,
-            values = [0, *20*[omega_max], 0]
+            values = [0, omega_max, 0]
         )
         for i in range(len(atom_detunings)):
             di = detuning_base + atom_detunings[i] * (detuning_max-detuning_base)

@@ -2,16 +2,18 @@ machine: chadoq3
 qpu_generator:
   type: EdgeGadgetQPUGenerator
   args:
-    weights_detuning_fraction: 0.1
-    next_nearest_neighbour_detuning_correction: 1 # <1
-    vacancy_detuning_correction: 1 # > 1
-    side_square_detuning_correction: 4 # > 4
+    weights_detuning_fraction: 0.9
+    x: 0
+    y: 0
+    z: 0
+    w: 0
+    b: 0.8
     atomic_min_distance: 3.8
     length_ratio: 2
-rydberg_correction_factor: 1.2
-time: 30000 # ns
+rydberg_correction_factor: 1.01
+time: 10000 # ns
 adiabatic_waveform:
   detunings:
     detuning_min: -20
-    detuning_max: 40
+    detuning_max: 50
     detuning_base: 0
