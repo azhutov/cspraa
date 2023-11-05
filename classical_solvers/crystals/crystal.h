@@ -11,12 +11,12 @@ public:
     void load();
 
     std::vector<std::vector<double> > getQUBOMatrix();
-    int getN();
+    int getN() const;
     int getSpecies();
     int getDimension();
     double getEnergy(int *status);
     double getLocalEnergy(int index, int *status);
-    std::string getCrystalName();
+    std::string getCrystalName() const;
 private:
     void sortVertexLinkedList(LinkedList<int> &ll);
     std::vector<std::vector<double> > qmat;

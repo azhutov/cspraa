@@ -10,10 +10,10 @@ CXX = g++
 CXXFLAGS = -Wall -O2
 ifeq ($(detected_OS),Windows)
     CXXFLAGS += -std=c++17
-    EXECUTABLE = brute_force.exe
+    EXECUTABLE = simulated_annealing.exe
 else ifeq ($(detected_OS),Darwin)  # Darwin is the system name for macOS
     CXXFLAGS += -std=c++17
-    EXECUTABLE = brute_force
+    EXECUTABLE = simulated_annealing
 endif
 
 # Source file and executable name
@@ -25,13 +25,6 @@ OBJECTS = $(SOURCES:.cpp=.o)
 
 # Include directories
 INCLUDES = -I. -I../crystals/
-
-# Executable name based on detected OS
-ifeq ($(detected_OS),Windows)
-    EXECUTABLE = annealing.exe
-else
-    EXECUTABLE = annealing
-endif
 
 # Default target
 all: $(EXECUTABLE)

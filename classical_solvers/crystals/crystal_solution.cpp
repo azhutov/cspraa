@@ -8,7 +8,7 @@ Solution::Solution(Crystal &cr, double energy, int *solution) : crystal(cr) {
     this->solution = solution;
 }
 
-int Solution::getN() {
+int Solution::getN() const {
     return this->n;
 }
 
@@ -28,7 +28,7 @@ Crystal Solution::getCrystal() {
     return crystal;
 }
 
-void Solution::save(std::string name) {
+void Solution::save(std::string name) const {
     std::string address = name;
     std::ofstream file(address);
 

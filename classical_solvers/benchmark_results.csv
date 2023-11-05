@@ -1,0 +1,11 @@
+solver,problem_size,runtime,input_file
+"brute_force",6,0,"../native_crystal_database/benchmark_crystals/brute_force//graphene_supercell_nx_1_ny_1.dat"
+"brute_force",10,0,"../native_crystal_database/benchmark_crystals/brute_force//graphene_supercell_nx_2_ny_1.dat"
+"brute_force",14,4,"../native_crystal_database/benchmark_crystals/brute_force//graphene_supercell_nx_3_ny_1.dat"
+"brute_force",18,92,"../native_crystal_database/benchmark_crystals/brute_force//graphene_supercell_nx_4_ny_1.dat"
+"brute_force",22,2307,"../native_crystal_database/benchmark_crystals/brute_force//graphene_supercell_nx_5_ny_1.dat"
+"simulated_annealing",6,1768,"../native_crystal_database/benchmark_crystals/simulated_annealing//graphene_supercell_nx_1_ny_1.dat"
+"simulated_annealing",16,1390,"../native_crystal_database/benchmark_crystals/simulated_annealing//graphene_supercell_nx_2_ny_2.dat"
+"simulated_annealing",30,1471,"../native_crystal_database/benchmark_crystals/simulated_annealing//graphene_supercell_nx_3_ny_3.dat"
+"simulated_annealing",48,1547,"../native_crystal_database/benchmark_crystals/simulated_annealing//graphene_supercell_nx_4_ny_4.dat"
+"simulated_annealing",70,1450,"../native_crystal_database/benchmark_crystals/simulated_annealing//graphene_supercell_nx_5_ny_5.dat"

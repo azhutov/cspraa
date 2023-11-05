@@ -170,7 +170,7 @@ std::vector<std::vector<double> > Crystal::getQUBOMatrix() {
     return this->qmat;
 }
 
-int Crystal::getN() {
+int Crystal::getN() const {
     return this->n;
 }
 
@@ -182,7 +182,7 @@ int Crystal::getDimension() {
     return this->dimension;
 }
 
-std::string Crystal::getCrystalName() {
+std::string Crystal::getCrystalName() const {
     std::filesystem::path file_path = this->address;
     return file_path.filename().stem().string();
 }
