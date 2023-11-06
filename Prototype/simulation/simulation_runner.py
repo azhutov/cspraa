@@ -32,9 +32,9 @@ class SimulationRunner:
         serialized_sequence = seq.to_abstract_repr()
         job = {"runs": runs, "variables": {}}
         
-        configuration = EmuTNConfig(dt = 10.0, precision ="normal", max_bond_dim = self.max_bond_dim)
+        # configuration = EmuTNConfig(dt = 10.0, precision ="normal", max_bond_dim = self.max_bond_dim)
         self.batch = self.sdk.create_batch(serialized_sequence, [job], 
-                                      emulator=emulator, configuration=configuration) 
+                                      emulator=emulator)#, configuration=configuration) 
 
     def get_last_ordered_job(self):
         return self.sdk.get_batch(self.batch.id).ordered_jobs[0]

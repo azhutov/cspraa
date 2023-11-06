@@ -98,10 +98,10 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
             flag2 = True
 
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 1 + self.b, 2*index1 if flag1 else -1)]
+        atom_specs += [AtomSpec(pos, 2 + self.b, 2*index1 if flag1 else -1)]
 
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 1, -1)]
+        atom_specs += [AtomSpec(pos, 2, -1)]
 
         dir = self._rotation(alpha).dot(dir)
         pos += dir * self.length_ratio
@@ -129,11 +129,11 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
 
         dir = self._rotation(2*alpha).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 1, -1)]
+        atom_specs += [AtomSpec(pos, 2, -1)]
 
         dir = self._rotation(90-alpha).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 1 + self.b, 2*index2 if flag2 else -1)]
+        atom_specs += [AtomSpec(pos, 2 + self.b, 2*index2 if flag2 else -1)]
 
     def _rotation(self, degrees):
         angle = degrees / 180 * np.pi
