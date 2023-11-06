@@ -2,7 +2,7 @@ machine: chadoq3
 qpu_generator:
   type: EdgeGadgetQPUGenerator
   args:
-    weights_detuning_fraction: 0.9
+    weights_detuning_fraction: 0.1
     x: 0
     y: 0
     z: 0
