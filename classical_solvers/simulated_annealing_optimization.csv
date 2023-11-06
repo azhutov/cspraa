@@ -1,0 +1,2 @@
+solver,problem_size,runtime,input_file
+"simulated_annealing",70,12,"../native_crystal_database/benchmark_crystals/simulated_annealing//graphene_supercell_nx_5_ny_5.dat"

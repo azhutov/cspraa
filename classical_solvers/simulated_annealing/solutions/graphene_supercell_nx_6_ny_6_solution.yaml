@@ -1,6 +1,6 @@
-crystal: graphene_supercell_nx_5_ny_5
-energy: -9.4
-ground_state_energy: -9.4
+crystal: graphene_supercell_nx_6_ny_6
+energy: -12.3
+ground_state_energy: -13.1
 atoms:
  - 1
  - 1
@@ -20,6 +20,33 @@ atoms:
  - 1
  - 1
  - 1
+ - 0
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 0
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 1
+ - 0
  - 1
  - 1
  - 1
@@ -39,8 +66,7 @@ atoms:
  - 1
  - 1
  - 1
- - 1
- - 1
+ - 0
  - 1
  - 1
  - 1

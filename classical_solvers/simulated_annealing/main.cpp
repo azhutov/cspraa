@@ -29,14 +29,8 @@ void appendBenchmarkData(const std::string& benchmarkFilePath, Crystal& crystal,
     benchmarkFile.close();
 }
 
-// double linearTemperatureFunction(double t) {
-//     return 1 - t;
-// }
-
-double exponentialTemperatureFunction(double t) {
-    double initial_temperature = 1.0; // You can adjust this value
-    double cooling_rate = 0.95; // This should be between 0.8 and 0.99
-    return initial_temperature * pow(cooling_rate, t);
+double linearTemperatureFunction(double t) {
+    return 0.05 - t;
 }
 
 
@@ -63,7 +57,7 @@ int main(int argc, char** argv) {
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        MetropolisSolver metropolis_solver(crystal, exponentialTemperatureFunction);
+        MetropolisSolver metropolis_solver(crystal, linearTemperatureFunction);
         Solution solution = metropolis_solver.solve_repeat(repetitions, iterations, initial_status.get());
         
         auto stop = std::chrono::high_resolution_clock::now();
