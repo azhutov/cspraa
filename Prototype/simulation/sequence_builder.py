@@ -94,9 +94,15 @@ class SequenceBuilder:
     def _calculate_omega_max(self, qpu_properties: dict, machine: Chadoq2):
         radius = qpu_properties["rydberg_radius"] * self.configs["rydberg_correction_factor"]
         return machine.interaction_coeff / radius**6
+    
+    def _generate_back_converter(self, qpu_propertiesL: dict):
+        return globals()[self.configs["qpu_generator"]["back_converter"]](
+            qpu_propertiesL
+        )
 
     def create_sequence(self):
         qpu_properties = self._generate_qpu_properties()
+        back_converter = self._generate_back_converter(qpu_properties)
         
         machine = MachineGenerator.getMachine(self.configs["machine"])
         self.omega_max = self._calculate_omega_max(qpu_properties, machine)
@@ -109,7 +115,7 @@ class SequenceBuilder:
             seq, qpu_properties
         )
 
-        return seq
+        return seq, back_converter
 
 
 
