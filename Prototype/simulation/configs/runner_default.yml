@@ -1,1 +1,3 @@
 max_bond_dim: 500
+dt: 10
+precision: normal

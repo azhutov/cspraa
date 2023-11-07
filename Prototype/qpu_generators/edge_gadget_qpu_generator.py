@@ -7,19 +7,9 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
 
     def __init__(self, 
                  weights_detuning_fraction: float,
-                 x: float,
-                 y: float,
-                 z: float,
-                 w: float,
-                 b: float,
                  crystal: CrystalStructure,
                  length_ratio: float = 1,
                  atomic_min_distance: float = 1):
-        self.x = x
-        self.y = y
-        self.z = z
-        self.w = w
-        self.b = b
         super().__init__(crystal, atomic_min_distance)
 
         self.weights_detuning_fraction = weights_detuning_fraction / max(1, max(np.abs(np.array(list(crystal.interactions.values()))).max(), np.abs(np.array(crystal.potentials)).max()))
@@ -98,34 +88,34 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
             flag2 = True
 
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 2 + self.b, 2*index1 if flag1 else -1)]
+        atom_specs += [AtomSpec(pos, 2, 2*index1 if flag1 else -1)]
 
         pos += dir * self.length_ratio
         atom_specs += [AtomSpec(pos, 2, -1)]
 
         dir = self._rotation(alpha).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 4+self.x, -1)]
+        atom_specs += [AtomSpec(pos, 4, -1)]
         
         dir = self._rotation(135-alpha).dot(dir)
         pos += dir
-        atom_specs += [AtomSpec(pos, 4+self.y, -1)]
+        atom_specs += [AtomSpec(pos, 4, -1)]
 
         dir = self._rotation(-45+alpha).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 1-self.b, -1)]
+        atom_specs += [AtomSpec(pos, 1, -1)]
 
         dir = self._rotation(-(90+2*alpha)).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 4 + self.z - (interactions[0]+interactions[3]-interactions[1]-interactions[2]), -1)]
+        atom_specs += [AtomSpec(pos, 4 - (interactions[0]+interactions[3]-interactions[1]-interactions[2]), -1)]
 
         dir = self._rotation(2*alpha).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 1-self.b, -1)]
+        atom_specs += [AtomSpec(pos, 1, -1)]
         
         dir = self._rotation(-(90+2*alpha)).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 4 + self.w, -1)]
+        atom_specs += [AtomSpec(pos, 4, -1)]
 
         dir = self._rotation(2*alpha).dot(dir)
         pos += dir * self.length_ratio
@@ -133,7 +123,7 @@ class EdgeGadgetQPUGenerator(GenericQPUGenerator):
 
         dir = self._rotation(90-alpha).dot(dir)
         pos += dir * self.length_ratio
-        atom_specs += [AtomSpec(pos, 2 + self.b, 2*index2 if flag2 else -1)]
+        atom_specs += [AtomSpec(pos, 2, 2*index2 if flag2 else -1)]
 
     def _rotation(self, degrees):
         angle = degrees / 180 * np.pi

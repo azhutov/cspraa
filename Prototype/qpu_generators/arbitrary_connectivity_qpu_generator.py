@@ -7,14 +7,10 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
 
     def __init__(self, 
                  weights_detuning_fraction: float,
-                 copy_gadget_detuning_correction: float,
-                 next_nearest_neighbour_detuning_correction: float,
                  two_species_penalty: float,
                  no_species_penalty: float,
                  crystal: CrystalStructure,
                  atomic_min_distance: float = 1):
-        self.copy_gadget_detuning_correction = copy_gadget_detuning_correction
-        self.next_nearest_neighbour_detuning_correction = next_nearest_neighbour_detuning_correction
         self.two_species_penalty = two_species_penalty
         self.no_species_penalty = no_species_penalty
         super().__init__(crystal, atomic_min_distance)
@@ -104,40 +100,32 @@ class ArbitraryConnectivityQPUGenerator(GenericQPUGenerator):
         while True:
             if current[0] == end[0] or current[1] == end[1] or current[1] > end[1] + 3/2:
                 is_start = (current == start).all()
+                is_end = (current == end).all()
+                if is_start:
+                    det = 1 - self.weights_detuning_fraction*self.potentials[vertex_index][species_index] + self.no_species_penalty
+                elif is_end:
+                    det = 1
+                else:
+                    det = 2
+
                 atom_specs += [AtomSpec(
                     position = np.array(current),
-                    detuning = 1 - self.weights_detuning_fraction*self.potentials[vertex_index][species_index]*is_start - self.no_species_penalty*is_start,
+                    detuning = det,
                     target = index if is_start else -1
                 )]
                 if (current == end).all():
                     break
                 current += np.array([3,0]) if current[1]==end[1] else np.array([0,-3])
-            elif current[1] == end[1] + 3/2:
+            elif current[1] == end[1] + 3/2 or current[1] == end[1] + 3/4:
                 atom_specs += [AtomSpec(
                     position = np.array(current),
-                    detuning = 1 + self.copy_gadget_detuning_correction + self.next_nearest_neighbour_detuning_correction,
+                    detuning = 2,
                     target = -1
                 )]
                 current += np.array([3/4,-3/4])
-            elif current[1] == end[1] + 3/4:
-                atom_specs += [AtomSpec(
-                    position = np.array(current),
-                    detuning = 1 + self.copy_gadget_detuning_correction,
-                    target = -1
-                )]
-                current += np.array([3/4,-3/4])
-            elif current[1] < end[1]:
-                raise Exception("Unexpected behavior. This is a logical error.")
             else:
                 raise Exception("Unexpected behavior. This is a logical error.")
 
-        if self.n % 2: # To make 0/1 balanced when n is odd
-            atom_specs += [AtomSpec(
-                position = end+(np.array([1,0]) if index < self.n-1 else np.array([0,-1])),
-                detuning = 1,
-                target = -1
-                )]
-                
     def _get_target_line_start(self, index):
         return np.array([(3/2+3*(index-1))*(index>0), 3/2*(index>0)])
 

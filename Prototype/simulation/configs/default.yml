@@ -4,17 +4,12 @@ qpu_generator:
   back_converter: EdgeGadgetBackConverter
   args:
     weights_detuning_fraction: 0.1
-    x: 0
-    y: 0
-    z: 0
-    w: 0
-    b: 0
-    atomic_min_distance: 3.8
+    atomic_min_distance: 4
     length_ratio: 2
 rydberg_correction_factor: 1.01
 time: 10000 # ns
 adiabatic_waveform:
   detunings:
     detuning_min: -20
-    detuning_max: 50
+    detuning_max: 40
     detuning_base: 0
