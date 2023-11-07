@@ -3,7 +3,7 @@ qpu_generator:
   type: EdgeGadgetQPUGenerator
   back_converter: EdgeGadgetBackConverter
   args:
-    weights_detuning_fraction: 0.1
+    weights_detuning_fraction: 0.05
     atomic_min_distance: 4
     length_ratio: 2
 rydberg_correction_factor: 1.01
