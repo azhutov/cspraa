@@ -1,9 +1,7 @@
-crystal: hexagon_three
+crystal: three_edges_binary
 energy: -3
 atoms:
- - 2
- - 2
- - 2
- - 2
- - 2
- - 2
+ - 1
+ - 0
+ - 0
+ - 0

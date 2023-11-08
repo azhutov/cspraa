@@ -1,0 +1,16 @@
+machine: chadoq3
+qpu_generator:
+  type: ArbitraryConnectivityQPUGenerator
+  back_converter: ArbitraryConverterBackConverter
+  args:
+    weights_detuning_fraction: 0.1
+    two_species_penalty: 0
+    no_species_penalty: 0
+    atomic_min_distance: 5
+rydberg_correction_factor: 1.01
+time: 10000 # ns
+adiabatic_waveform:
+  detunings:
+    detuning_min: -20
+    detuning_max: 50
+    detuning_base: 0
