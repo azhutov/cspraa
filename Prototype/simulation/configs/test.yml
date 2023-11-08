@@ -1,0 +1,15 @@
+machine: chadoq3
+qpu_generator:
+  type: EdgeGadgetQPUGenerator
+  back_converter: EdgeGadgetBackConverter
+  args:
+    weights_detuning_fraction: 0.1
+    atomic_min_distance: 4
+    length_ratio: 2
+rydberg_correction_factor: 0.9
+time: 30000 # ns
+adiabatic_waveform:
+  detunings:
+    detuning_min: 0
+    detuning_max: 0
+    detuning_base: 0
